@@ -85,7 +85,7 @@ def visualize_top_words(result, top_n=10):
 if __name__ == '__main__':
     url = "https://gutenberg.net.au/ebooks01/0100021.txt"
 
-    search_words = ['brother', 'Brother', 'Big', 'big', 'hate', "Hate", 'peace']
+    search_words = None  # Optionally, specify a list of search words
     result = asyncio.run(map_reduce(url, search_words))
 
     if result:
