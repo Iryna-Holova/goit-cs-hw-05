@@ -76,7 +76,7 @@ python3 word_frequency.py
 
 - **Customization**: Users can customize the script by providing a list of search words. This allows them to analyze the frequency of specific words in the text.
 
-- **Efficient Execution**: The script utilizes asynchronous programming with asyncio to efficiently handle text processing tasks. This ensures optimal performance, especially when dealing with large volumes of text data.
+- **Efficient Execution**: The script utilizes multithreading programming with ThreadPoolExecutor to efficiently handle text processing tasks. This ensures optimal performance, especially when dealing with large volumes of text data.
 
 ### Example
 
