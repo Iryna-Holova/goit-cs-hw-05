@@ -1,15 +1,15 @@
 import string
-import asyncio
 import httpx
 from collections import defaultdict, Counter
 from matplotlib import pyplot as plt
+from concurrent.futures import ThreadPoolExecutor
 
 
-async def get_text(url):
+def get_text(url):
     """Fetch text from a given URL."""
     try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url)
+        with httpx.Client() as client:
+            response = client.get(url)
             if response.status_code == 200:
                 return response.text
             else:
@@ -25,7 +25,7 @@ def remove_punctuation(text):
     return text.translate(str.maketrans("", "", string.punctuation))
 
 
-async def map_function(word) -> tuple:
+def map_function(word) -> tuple:
     """Map each word to a tuple (word, 1)."""
     return word, 1
 
@@ -38,15 +38,15 @@ def shuffle_function(mapped_values):
     return shuffled.items()
 
 
-async def reduce_function(key_values):
+def reduce_function(key_values):
     """Reduce the shuffled values by summing up the counts for each word."""
     key, values = key_values
     return key, sum(values)
 
 
-async def map_reduce(text, search_words=None):
+def map_reduce(text, search_words=None):
     """Execute the MapReduce operation on the text."""
-    text = await get_text(url)
+    text = get_text(url)
     if text:
         text = remove_punctuation(text)
         words = text.split()
@@ -54,15 +54,15 @@ async def map_reduce(text, search_words=None):
         if search_words:
             words = [word for word in words if word in search_words]
 
-        mapped_values = await asyncio.gather(
-            *[map_function(word) for word in words]
-        )
+        with ThreadPoolExecutor() as executor:
+            mapped_values = list(executor.map(map_function, words))
 
         shuffled_values = shuffle_function(mapped_values)
 
-        reduced_values = await asyncio.gather(
-            *[reduce_function(key_values) for key_values in shuffled_values]
-        )
+        with ThreadPoolExecutor() as executor:
+            reduced_values = list(
+                executor.map(reduce_function, shuffled_values)
+            )
 
         return dict(reduced_values)
     else:
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     url = "https://gutenberg.net.au/ebooks01/0100021.txt"
 
     search_words = None  # Optionally, specify a list of search words
-    result = asyncio.run(map_reduce(url, search_words))
+    result = map_reduce(url, search_words)
 
     if result:
         print("Word frequency analysis result:", result)
