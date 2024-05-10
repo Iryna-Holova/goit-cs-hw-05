@@ -85,7 +85,7 @@ python3 word_frequency.py
 Word frequency analysis result: {'Project': 6, 'Gutenberg': 6, 'Australia': 7, 'Title': 2, 'Nineteen': 3, 'eightyfour': 2, 'Author': 2, 'George': 2, 'Orwell': 2, 'pseudonym': 2, 'of': 3467, ... }
 ```
 
-<p align="center"><img width="1000" height="600" src="assets/Figure_1.png" alt="Top Most Frequent Words"></p>
+<p align="center"><img src="assets/Figure_1.png" alt="Top Most Frequent Words"></p>
 
 Specify search words in main function
 
@@ -96,4 +96,4 @@ python3 word_frequency.py
 Word frequency analysis result: {'Hate': 30, 'big': 15, 'Big': 66, 'Brother': 58, 'peace': 6, 'brother': 3, 'hate': 5}
 ```
 
-<p align="center"><img width="1000" height="600" src="assets/Figure_2.png" alt="Top Most Frequent Words"></p>
+<p align="center"><img src="assets/Figure_2.png" alt="Top Most Frequent Words"></p>
